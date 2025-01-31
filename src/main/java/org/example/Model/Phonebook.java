@@ -87,6 +87,11 @@ public class Phonebook {
 
         }
     }
+    public List<AbstractRecord> getContactsList(){
+
+        //ads
+        return contacts;
+    }
 
     public void deleteContact(int index){
         contacts.remove(index);

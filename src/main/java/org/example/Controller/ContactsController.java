@@ -24,7 +24,7 @@ public class ContactsController {
             String action = view.getUserInput().toLowerCase();
             switch(action) {
                 case "add" -> addContact();
-                case "list" -> listContacts();
+                case "list" -> listContacts2();
                 case "search" -> searchContacts();
                 case "count" -> countContacts();
                 case "exit" -> {
@@ -73,7 +73,12 @@ public class ContactsController {
 
         }
     private void listContacts() {
-        phonebook.listContacts();
+        //asdas
+
+
+
+
+
         view.showListMenu();
 
         String action = view.getUserInput();
@@ -81,8 +86,26 @@ public class ContactsController {
             phonebook.listActions(action);
         }
 
+        printContacts(phonebook.getContactsList());
 
 
+
+
+
+    }
+    private void listContacts2(){
+        printContacts(phonebook.getContactsList());
+
+    }
+
+    private void printContacts(List<AbstractRecord> contacts){
+        for (int i = 0; i < contacts.size(); i++) {
+
+            view.showMessage((i + 1) + ". " + contacts.get(i).printName());
+        }
+    }
+
+    private void listActions2(){
 
     }
 
