@@ -6,36 +6,31 @@ public class Organization extends AbstractRecord {
     private String organizationName;
     private String address;
 
-
-
-    public Organization(String organizationName,String address,String phoneNumber){
+    public Organization(String organizationName, String address, String phoneNumber) {
         super(phoneNumber);
 
-        this.organizationName=organizationName;
-        this.address=address;
-
-
+        this.organizationName = organizationName;
+        this.address = address;
     }
 
     @Override
-    public List<String> getFields(){
-        return List.of("organizationName","address","number");
+    public List<String> getFields() {
+        return List.of("organizationName", "address", "number");
     }
 
     @Override
-    public void setField(String field,String value){
-        switch (field){
+    public void setField(String field, String value) {
+        switch (field) {
             case "organizationName" -> this.organizationName = value;
             case "address" -> this.address = value;
             case "number" -> super.setPhoneNumber(value);
             default -> System.out.println("Invalid field");
-
         }
     }
 
     @Override
-    public String getField(String field){
-        return switch (field){
+    public String getField(String field) {
+        return switch (field) {
             case "organizationName" -> organizationName;
             case "address" -> address;
             case "number" -> super.getPhoneNumber();
@@ -44,21 +39,17 @@ public class Organization extends AbstractRecord {
     }
 
     @Override
-    public String printName(){
+    public String printName() {
         return organizationName;
     }
 
-    public void printInfo(){
-        System.out.println("Organization name: "+organizationName);
-
-
-        System.out.println("Address: "+address);
-        System.out.println("Number: "+super.getPhoneNumber());
-        System.out.println("Time created: "+super.getCreatedDate());
-        System.out.println("Time last edit: "+super.getLastEditedDate());
-
+    public void printInfo() {
+        System.out.println("Organization name: " + organizationName);
+        System.out.println("Address: " + address);
+        System.out.println("Number: " + super.getPhoneNumber());
+        System.out.println("Time created: " + super.getCreatedDate());
+        System.out.println("Time last edit: " + super.getLastEditedDate());
     }
-
 
     public String getOrganizationName() {
         return organizationName;
@@ -75,9 +66,4 @@ public class Organization extends AbstractRecord {
     public void setAddress(String address) {
         this.address = address;
     }
-
-
-
-
 }
-

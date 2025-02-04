@@ -1,8 +1,7 @@
-import org.example.Model;
+package org.example.Model.Model2;
 import org.example.Model.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,7 +12,8 @@ class AbstractRecordTest {
 
     @BeforeEach
     void setUp() {
-        person = new Person("1234567890", "John", "Doe", LocalDate.now());
+        LocalDate birth = LocalDate.parse("1998-01-01");
+        person = new Person("Juan", "Perez", "3214569870","M", birth);
     }
 
     @Test

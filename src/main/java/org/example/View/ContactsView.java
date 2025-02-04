@@ -1,48 +1,38 @@
 package org.example.View;
-
 import java.util.Scanner;
 
-public class ContactsView
-{
+public class ContactsView {
     private final Scanner scanner = new Scanner(System.in);
 
-    public void showMenu()
-    {
+    public void showMenu() {
         System.out.println("\n[menu] Enter action (add, list, search, count, exit):");
     }
 
-    public void showListMenu()
-    {
+    public void showListMenu() {
         System.out.println("[list] Enter action ([number], back):");
     }
 
-    public void showRecordMenu()
-    {
+    public void showRecordMenu() {
         System.out.println("[record] Enter action (edit, delete, menu):");
     }
 
-    public void showSearchMenu()
-    {
+    public void showSearchMenu() {
         System.out.println("[search] Enter action ([number], back, again):");
     }
 
-    public void showMessage(String message)
-    {
+    public void showMessage(String message) {
         System.out.println(message);
     }
 
-    public String getUserInput()
-    {
+    public String getUserInput() {
         return scanner.nextLine();
     }
 
-    public void printRecordMenu()
-    {
+    public void printRecordMenu() {
         System.out.println("\n[record] Enter action (edit, delete, menu): ");
     }
 
-    public void selectAField()
-    {
+    public void selectAField() {
         System.out.println("Select a field (name, surname, birth, gender, number): ");
     }
 }

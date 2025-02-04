@@ -1,53 +1,48 @@
 package org.example.Model;
-
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Phonebook
-{
-    private final List<AbstractRecord> contacts = new ArrayList<>();
+public class Phonebook {
+    private List<AbstractRecord> contacts = new ArrayList<>();
     private File file;
     private final PhonebookPersistence persistence;
     private final String dbName = "phonebook.db";
 
-    public Phonebook(String filepath)
-    {
+    public Phonebook(String filepath) {
         persistence = new PhonebookPersistence(file);
 
         if (filepath == null) {
             file = new File(dbName);
-        }
-        else {
+        } else {
             file = new File(filepath);
         }
 
         if (file.exists()) {
-            contacts.addAll(persistence.load(file));
-            System.out.println("open " + dbName);
+            List<AbstractRecord> loadedContacts = persistence.load(file);
+            if (loadedContacts != null) {
+                contacts.addAll(loadedContacts);
+            } else {
+                System.out.println("No contacts loaded from file.");
+            }
         }
     }
 
-    public void addContact(AbstractRecord record)
-    {
+    public void addContact(AbstractRecord record) {
         contacts.add(record);
         persistence.save(contacts, file);
     }
 
-    public int countContacts()
-    {
+    public int countContacts() {
         return contacts.size();
     }
 
-    public void exit()
-    {
+    public void exit() {
         persistence.save(contacts, file);
     }
 
-    public void printRecordInfo(String action)
-    {
-
+    public void printRecordInfo(String action) {
         int index = Integer.valueOf(action);
         if (index > 0 && index <= contacts.size()) {
             //from superclass
@@ -55,26 +50,20 @@ public class Phonebook
         }
     }
 
-    public void recordsActions2(int index)
-    {
+    public void recordsActions2(int index) {
         System.out.println("fixing");
     }
 
-    public List<AbstractRecord> getContactsList()
-    {
+    public List<AbstractRecord> getContactsList() {
         return contacts;
     }
 
-    public void deleteContact(int index)
-    {
+    public void deleteContact(int index) {
         contacts.remove(index);
     }
 
-    public void editContact(int index, String field, String newValue)
-    {
-
+    public void editContact(int index, String field, String newValue) {
         if (contacts.get(index) instanceof Person personObj) {
-
             switch (field) {
                 case "name" -> {
                     personObj.setName(newValue);
@@ -100,10 +89,12 @@ public class Phonebook
                 }
                 default -> System.out.println("Invalid field ");
             }
-        }
-        else if (contacts.get(index) instanceof Organization organizationObj) {
-
+        } else if (contacts.get(index) instanceof Organization organizationObj) {
             switch (field) {
+                case "name" -> {
+                    organizationObj.setOrganizationName(newValue);
+                    organizationObj.setLastEditedDate(LocalDate.now());
+                }
                 case "address" -> {
                     organizationObj.setAddress(newValue);
                     organizationObj.setLastEditedDate(LocalDate.now());
@@ -114,14 +105,12 @@ public class Phonebook
                 }
                 default -> System.out.println("Invalid field");
             }
-        }
-        else {
+        } else {
             System.out.println("Invalid Action");
         }
     }
 
-    public List<AbstractRecord> searchContacts(String query)
-    {
+    public List<AbstractRecord> searchContacts(String query) {
         List<AbstractRecord> results = new ArrayList<>();
         results.clear();
 
@@ -150,26 +139,27 @@ public class Phonebook
         return results;
     }
 
-    public AbstractRecord getContact(int index)
-    {
+    public AbstractRecord getContact(int index) {
         return contacts.get(index);
     }
 
-    public boolean verifyGender(String gender)
-    {
+    public boolean verifyGender(String gender) {
         return gender.equalsIgnoreCase("M") || gender.equalsIgnoreCase("F");
     }
 
-    public LocalDate verifybirthDate(String birthDateString)
-    {
+    public LocalDate verifybirthDate(String birthDateString) {
 
         try {
 
             return LocalDate.parse(birthDateString);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Bad birth date! ");
             return null;
         }
     }
-}//end class
+    //for testing
+    public void cleardb(){
+        contacts.clear();
+        persistence.save(contacts,file);
+    }
+}
