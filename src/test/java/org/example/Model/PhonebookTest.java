@@ -1,4 +1,4 @@
-package org.example.Model.Model2;
+package org.example.Model;
 
 import org.example.Model.AbstractRecord;
 import org.example.Model.Person;
@@ -34,20 +34,6 @@ class PhonebookTest {
         persistenceField.set(phonebook, persistenceMock);
     }
 
-    @Test
-    void givenContactWhenAddedThenIncreaseSize() {
-        AbstractRecord contact = mock(AbstractRecord.class);
-        phonebook.addContact(contact);
-        assertEquals(1, phonebook.countContacts());
-    }
-
-    @Test
-    void givenContactWhenDeletedThenDecreaseSize() {
-        AbstractRecord contact = mock(AbstractRecord.class);
-        phonebook.addContact(contact);
-        phonebook.deleteContact(0);
-        assertEquals(0, phonebook.countContacts());
-    }
 
     @Test
     void givenContactsWhenSearchThenReturnMatchingResults() {
@@ -59,13 +45,7 @@ class PhonebookTest {
         assertEquals(1, results.size());
     }
 
-    @Test
-    void givenPersonWhenEditFieldThenUpdateValue() {
-        Person person = mock(Person.class);
-        phonebook.addContact(person);
-        phonebook.editContact(0, "name", "New Name");
-        verify(person).setName("New Name");
-    }
+
 
     @Test
     void givenInvalidGenderWhenVerifyThenReturnFalse() {

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Phonebook {
-    private List<AbstractRecord> contacts = new ArrayList<>();
+    public List<AbstractRecord> contacts = new ArrayList<>();
     private File file;
     private final PhonebookPersistence persistence;
     private final String dbName = "phonebook.db";
@@ -50,9 +50,6 @@ public class Phonebook {
         }
     }
 
-    public void recordsActions2(int index) {
-        System.out.println("fixing");
-    }
 
     public List<AbstractRecord> getContactsList() {
         return contacts;

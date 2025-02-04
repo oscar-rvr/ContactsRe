@@ -9,6 +9,8 @@ public class Main {
         Phonebook phonebook = new Phonebook(filePath);
         ContactsView view = new ContactsView();
         ContactsController controller = new ContactsController(phonebook, view);
+
         controller.run();
+
     }
 }

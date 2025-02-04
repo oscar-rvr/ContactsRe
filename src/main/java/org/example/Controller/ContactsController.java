@@ -27,6 +27,7 @@ public class ContactsController {
                 case "list" -> handleListContacts();
                 case "search" -> handleSearchContacts();
                 case "count" -> handleCountContacts();
+                //case "clear" -> phonebook.cleardb();
                 case "exit" -> {
                     handleExit();
                     return;
@@ -36,7 +37,7 @@ public class ContactsController {
         }
     }
 
-    private void handleExit() {
+    public void handleExit() {
         phonebook.exit();
     }
 
@@ -199,7 +200,7 @@ public class ContactsController {
         view.showMessage("Contact updated.");
     }
 
-    private void printContacts(List<AbstractRecord> contacts) {
+    public void printContacts(List<AbstractRecord> contacts) {
         for (int i = 0; i < contacts.size(); i++) {
 
             view.showMessage((i + 1) + ". " + contacts.get(i).printName());

@@ -1,4 +1,4 @@
-package org.example.Model.Model2;
+package org.example.Model;
 
 import org.example.Model.AbstractRecord;
 import org.example.Model.PhonebookPersistence;
