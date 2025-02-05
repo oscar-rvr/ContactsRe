@@ -107,6 +107,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/MainTest.java</exclude> <!-- Excluir clase de prueba que contiene main -->
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>

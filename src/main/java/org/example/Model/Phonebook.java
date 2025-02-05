@@ -23,9 +23,9 @@ public class Phonebook {
             List<AbstractRecord> loadedContacts = persistence.load(file);
             if (loadedContacts != null) {
                 contacts.addAll(loadedContacts);
-            } else {
+            } /*else {
                 System.out.println("No contacts loaded from file.");
-            }
+            }*/
         }
     }
 
@@ -102,9 +102,9 @@ public class Phonebook {
                 }
                 default -> System.out.println("Invalid field");
             }
-        } else {
+        } /*else {
             System.out.println("Invalid Action");
-        }
+        }*/
     }
 
     public List<AbstractRecord> searchContacts(String query) {

@@ -1,24 +1,11 @@
 package org.example;
-import org.example.Controller.ContactsController;
-import org.example.Model.Phonebook;
-import org.example.View.ContactsView;
 import org.junit.jupiter.api.Test;
-
-import javax.swing.text.View;
-
-import static org.mockito.Mockito.*;
-
 import java.io.File;
-import java.util.concurrent.CountDownLatch;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MainTest {
     @Test
-    public void test_components_properly_instantiated_and_connected() {
-        ContactsView view = mock(ContactsView.class);
-        Phonebook phonebook = mock(Phonebook.class);
-        ContactsController controller = new ContactsController(phonebook,view);
+    public void test_default_database_file_used_when_no_args() {
         // Given
         String[] args = new String[0];
 
@@ -26,9 +13,7 @@ public class MainTest {
         Main.main(args);
 
         // Then
-        assertNotNull(phonebook);
-        assertNotNull(view);
-        //assertEquals(phonebook, controller.getPhonebook());
-        //assertEquals(view, controller.getView());
+        File defaultDb = new File("phonebook.db");
+        assertTrue(defaultDb.exists());
     }
 }
