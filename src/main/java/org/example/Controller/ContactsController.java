@@ -51,7 +51,7 @@ public class ContactsController {
         view.showMessage("Enter the surname:");
         String surname = view.getUserInput();
 
-        view.showMessage("Enter the birth date:");
+        view.showMessage("Enter the birth date (YYYY-MM-DD): ");
         LocalDate birthDate = phonebook.verifybirthDate(view.getUserInput());
 
         view.showMessage("Enter the gender (M, F): ");
@@ -142,7 +142,7 @@ public class ContactsController {
                 return;
             }
         }
-        phonebook.printRecordInfo(String.valueOf(index));
+        phonebook.printRecordInfo(String.valueOf(index+1));
     }
 
     public void editContact(int index) {
@@ -205,6 +205,7 @@ public class ContactsController {
         }
         phonebook.editContact(index, field, newValue);
         view.showMessage("Contact updated.");
+
     }
 
     public void printContacts(List<AbstractRecord> contacts) {
