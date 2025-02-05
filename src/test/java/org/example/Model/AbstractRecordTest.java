@@ -55,16 +55,16 @@ class AbstractRecordTest {
 
         assertFalse(organization.isValidNumber("123456asd"));
     }
-@Test
+    @Test
     void test_isValidNumber_withValidValues_returnFalseByParentheses() {
 
         assertFalse(organization.isValidNumber("(123)(456)7890"));
-    assertFalse(organization.isValidNumber("(123 456)7890"));
-    assertFalse(organization.isValidNumber("+123 456 7890"));
-    assertFalse(organization.isValidNumber("+123A567890"));
-    assertTrue(organization.isValidNumber("+1234567890"));
-    assertFalse(organization.isValidNumber("(123 456) 7890"));
-    assertFalse(organization.isValidNumber("(123) 456) 7890"));
+        assertFalse(organization.isValidNumber("(123 456)7890"));
+        assertFalse(organization.isValidNumber("+123 456 7890"));
+        assertFalse(organization.isValidNumber("+123A567890"));
+        assertTrue(organization.isValidNumber("+1234567890"));
+        assertFalse(organization.isValidNumber("(123 456) 7890"));
+        assertFalse(organization.isValidNumber("(123) 456) 7890"));
     }
 
 

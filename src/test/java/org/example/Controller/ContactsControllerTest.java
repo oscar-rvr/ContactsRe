@@ -1,4 +1,6 @@
 package org.example.Controller;
+
+import org.example.Controller.ContactsController;
 import org.example.Model.AbstractRecord;
 import org.example.Model.Organization;
 import org.example.Model.Person;
