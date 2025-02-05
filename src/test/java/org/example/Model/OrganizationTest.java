@@ -16,14 +16,23 @@ class OrganizationTest {
         organization = new Organization("Tech Corp", "123 Tech Street", "9876543210");
     }
 
+    private void assertPrintInfoFieldsOrderAndFormat(String output) {
+        String[] lines = output.split(System.lineSeparator());
+        assertThat(lines[0]).startsWith("Organization name: ");
+        assertThat(lines[1]).startsWith("Address: ");
+        assertThat(lines[2]).startsWith("Number: ");
+        assertThat(lines[3]).startsWith("Time created: ");
+        assertThat(lines[4]).startsWith("Time last edit: ");
+    }
+
     @Test
-    void test_constructor_given_existing_contacts_when_loaded_then_phonebook_is_empty() {
+    void givenExistingContacts_whenLoaded_thenPhonebookIsEmpty() {
         List<String> fields = organization.getFields();
         assertEquals(List.of("organizationName", "address", "number"), fields);
     }
 
     @Test
-    void test_set_field_given_valid_field_when_set_field_then_field_is_updated() {
+    void givenValidField_whenSetField_thenFieldIsUpdated() {
         organization.setField("organizationName", "New Tech");
         assertEquals("New Tech", organization.getOrganizationName());
 
@@ -35,30 +44,30 @@ class OrganizationTest {
     }
 
     @Test
-    void test_set_field_given_invalid_field_when_set_field_then_no_changes() {
+    void givenInvalidField_whenSetField_thenNoChanges() {
         organization.setField("invalid", "Some Value");
         assertEquals("Tech Corp", organization.getOrganizationName());
     }
 
     @Test
-    void test_get_field_given_valid_field_when_get_field_then_return_correct_value() {
+    void givenValidField_whenGetField_thenReturnsCorrectValue() {
         assertEquals("Tech Corp", organization.getField("organizationName"));
         assertEquals("123 Tech Street", organization.getField("address"));
         assertEquals("9876543210", organization.getField("number"));
     }
 
     @Test
-    void test_get_field_given_invalid_field_when_get_field_then_return_no_data() {
+    void givenInvalidField_whenGetField_thenReturnsNoData() {
         assertEquals("[no data]", organization.getField("invalid"));
     }
 
     @Test
-    void test_print_name_given_organization_when_print_name_then_return_organization_name() {
+    void givenOrganization_whenPrintName_thenReturnsOrganizationName() {
         assertEquals("Tech Corp", organization.printName());
     }
 
     @Test
-    void test_set_organization_name_given_valid_name_when_set_then_name_is_updated() {
+    void givenValidOrganizationName_whenSet_thenNameIsUpdated() {
         Organization organization = new Organization("Old Name", "Address", "123456");
         String newName = "New Company Name";
         organization.setOrganizationName(newName);
@@ -66,7 +75,7 @@ class OrganizationTest {
     }
 
     @Test
-    void test_set_organization_name_given_empty_name_when_set_then_name_is_empty() {
+    void givenEmptyOrganizationName_whenSet_thenNameIsEmpty() {
         Organization organization = new Organization("Test Org", "Address", "123456");
         String emptyName = "";
         organization.setOrganizationName(emptyName);
@@ -74,7 +83,7 @@ class OrganizationTest {
     }
 
     @Test
-    void test_print_info_given_organization_when_print_info_then_fields_order_and_format_are_correct() {
+    void givenOrganization_whenPrintInfo_thenFieldsOrderAndFormatAreCorrect() {
         Organization org = new Organization("Test Org", "123 Main St", "+1234567890");
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
@@ -82,16 +91,11 @@ class OrganizationTest {
         org.printInfo();
 
         String output = outContent.toString();
-        String[] lines = output.split(System.lineSeparator());
-        assertThat(lines[0]).startsWith("Organization name: ");
-        assertThat(lines[1]).startsWith("Address: ");
-        assertThat(lines[2]).startsWith("Number: ");
-        assertThat(lines[3]).startsWith("Time created: ");
-        assertThat(lines[4]).startsWith("Time last edit: ");
+        assertPrintInfoFieldsOrderAndFormat(output);
     }
 
     @Test
-    void test_print_info_given_organization_when_print_info_then_dates_are_in_expected_format() {
+    void givenOrganization_whenPrintInfo_thenDatesAreInExpectedFormat() {
         Organization org = new Organization("Test Org", "123 Main St", "+1234567890");
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));

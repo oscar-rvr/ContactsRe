@@ -174,6 +174,16 @@ public class ContactsViewTest {
         String expectedSearchMenuOutput = "[search] Enter action ([number], back, again):\n";
         assertEquals(expectedSearchMenuOutput, outContent.toString());
 
+        outContent.reset();
+        contactsView.printRecordMenu();
+        String expectedSearchMenuOutputPrint = "\n[record] Enter action (edit, delete, menu): \n";
+        assertEquals(expectedSearchMenuOutputPrint, outContent.toString());
+
+        outContent.reset();
+        contactsView.selectAField();
+        String expectedSearchMenuOutputPrintField = "Select a field (name, surname, birth, gender, number): \n";
+        assertEquals(expectedSearchMenuOutputPrintField, outContent.toString());
+
         System.setOut(System.out);
     }
 }
