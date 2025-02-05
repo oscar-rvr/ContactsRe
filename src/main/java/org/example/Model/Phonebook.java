@@ -23,9 +23,8 @@ public class Phonebook {
             List<AbstractRecord> loadedContacts = persistence.load(file);
             if (loadedContacts != null) {
                 contacts.addAll(loadedContacts);
-            } /*else {
-                System.out.println("No contacts loaded from file.");
-            }*/
+                System.out.println("Open phonebook.db");
+            }
         }
     }
 
@@ -43,11 +42,16 @@ public class Phonebook {
     }
 
     public void printRecordInfo(String action) {
+
         int index = Integer.valueOf(action);
         if (index > 0 && index <= contacts.size()) {
             //from superclass
             contacts.get(index - 1).printInfo();
         }
+    }
+
+    public boolean containsNumber(int index) {
+        return index >= 0 && index < contacts.size();
     }
 
 
@@ -102,9 +106,7 @@ public class Phonebook {
                 }
                 default -> System.out.println("Invalid field");
             }
-        } /*else {
-            System.out.println("Invalid Action");
-        }*/
+        }
     }
 
     public List<AbstractRecord> searchContacts(String query) {
@@ -132,7 +134,6 @@ public class Phonebook {
                 results.add(contact);
             }
         }
-
         return results;
     }
 
@@ -145,7 +146,6 @@ public class Phonebook {
     }
 
     public LocalDate verifybirthDate(String birthDateString) {
-
         try {
 
             return LocalDate.parse(birthDateString);

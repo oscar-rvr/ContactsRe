@@ -28,11 +28,14 @@ public class ContactsControllerTest {
     private Phonebook phonebook;
     private ContactsView view;
 
-
     private ContactsController createControllerWithMocks() {
         Phonebook phonebook = mock(Phonebook.class);
         ContactsView view = mock(ContactsView.class);
         return new ContactsController(phonebook, view);
+    }
+
+    private Person createPerson(){
+        return new Person("John", "Doe", "+1234567890", "M", LocalDate.of(1990, 1, 1));
     }
 
     @Test
@@ -99,7 +102,7 @@ public class ContactsControllerTest {
         Phonebook phonebookMock = mock(Phonebook.class);
         ContactsView viewMock = mock(ContactsView.class);
         ContactsController controller = new ContactsController(phonebookMock, viewMock);
-        Person person = new Person("John", "Doe", "+1234567890", "M", LocalDate.of(1990, 1, 1));
+        Person person = createPerson();
 
         when(phonebookMock.getContact(0)).thenReturn(person);
         when(viewMock.getUserInput()).thenReturn("name", "John");
@@ -187,7 +190,7 @@ public class ContactsControllerTest {
         ContactsView view = mock(ContactsView.class);
         ContactsController controller = new ContactsController(phonebook, view);
 
-        Person person = new Person("John", "Doe", "1234567890", "M", LocalDate.of(1990, 1, 1));
+        Person person = createPerson();
         when(phonebook.getContact(0)).thenReturn(person);
         when(view.getUserInput()).thenReturn("birth").thenReturn("1992-02-02");
 
@@ -296,7 +299,7 @@ public class ContactsControllerTest {
     public void test_edit_person_contact_fields() {
         ContactsController controller = createController();
 
-        Person person = new Person("John", "Doe", "+1234567890", "M", LocalDate.of(1990, 1, 1));
+        Person person = createPerson();
         Mockito.when(phonebook.getContact(0)).thenReturn(person);
         Mockito.when(view.getUserInput()).thenReturn("name", "Jane");
 
@@ -323,7 +326,7 @@ public class ContactsControllerTest {
         ContactsController controller = createController();
 
         List<AbstractRecord> contacts = new ArrayList<>();
-        Person person = new Person("John", "Doe", "+1234567890", "M", LocalDate.of(1990, 1, 1));
+        Person person = createPerson();
         contacts.add(person);
         Mockito.when(phonebook.getContactsList()).thenReturn(contacts);
 
@@ -387,7 +390,7 @@ public class ContactsControllerTest {
     public void test_edit_person_name_updates_last_edited_date() {
         Phonebook phonebook = Mockito.mock(Phonebook.class);
         phonebook.contacts = new ArrayList<>();
-        Person person = new Person("John", "Doe", "1234567890", "M", LocalDate.of(1990, 1, 1));
+        Person person = createPerson();
         phonebook.contacts.add(person);
         LocalDate beforeEdit = person.getLastEditedDate();
 
@@ -397,12 +400,10 @@ public class ContactsControllerTest {
     }
 
     @Test
-    public void test_edit_person_surname_updates_last_edited_date()
-    {
-
+    public void test_edit_person_surname_updates_last_edited_date() {
         Phonebook phonebook = Mockito.mock(Phonebook.class);
         phonebook.contacts = new ArrayList<>();
-        Person person = new Person("John", "Doe", "1234567890", "M", LocalDate.of(1990, 1, 1));
+        Person person = createPerson();
         phonebook.contacts.add(person);
         LocalDate beforeEdit = person.getLastEditedDate();
 
@@ -412,8 +413,7 @@ public class ContactsControllerTest {
     }
 
     @Test
-    public void test_delete_action_removes_contact_and_shows_message()
-    {
+    public void test_delete_action_removes_contact_and_shows_message() {
 
         ContactsController controller = createController();
         int index = 1;
@@ -426,9 +426,7 @@ public class ContactsControllerTest {
     }
 
     @Test
-    public void test_menu_action_returns_without_operations()
-    {
-
+    public void test_menu_action_returns_without_operations() {
         ContactsController controller = createController();
 
         controller.recordsActions("menu", 1);
@@ -438,9 +436,7 @@ public class ContactsControllerTest {
     }
 
     @Test
-    public void test_prints_contacts_with_correct_numbering()
-    {
-
+    public void test_prints_contacts_with_correct_numbering() {
         ContactsController controller = createController();
         List<AbstractRecord> contacts = Arrays.asList(
                 new Person("John", "Doe", "1234567890", "M", LocalDate.of(1990, 1, 1)),
@@ -453,9 +449,7 @@ public class ContactsControllerTest {
     }
 
     @Test
-    public void test_empty_phonebook_shows_no_contacts()
-    {
-
+    public void test_empty_phonebook_shows_no_contacts() {
         ContactsController controller = createController();
         when(phonebook.getContactsList()).thenReturn(new ArrayList<>());
 
@@ -467,9 +461,7 @@ public class ContactsControllerTest {
     }
 
     @Test
-    public void test_display_contacts_and_back_action()
-    {
-
+    public void test_display_contacts_and_back_action() {
         ContactsController controller = createController();
 
         List<AbstractRecord> contacts = Collections.singletonList(mock(AbstractRecord.class));
@@ -485,9 +477,7 @@ public class ContactsControllerTest {
     }
 
     @Test
-    public void test_search_query_returns_matching_contacts()
-    {
-
+    public void test_search_query_returns_matching_contacts() {
         ContactsController controller = createController();
         List<AbstractRecord> results = Collections.singletonList(mock(AbstractRecord.class));
 
@@ -502,9 +492,7 @@ public class ContactsControllerTest {
     }
 
     @Test
-    public void test_search_query_returns_matching_contacts_again()
-    {
-
+    public void test_search_query_returns_matching_contacts_again() {
         ContactsController controller = createController();
         List<AbstractRecord> results = Collections.singletonList(mock(AbstractRecord.class));
 
@@ -524,7 +512,6 @@ public class ContactsControllerTest {
 
     @Test
     public void test_back_command_returns_to_menu() {
-
         ContactsController controller = createController();
 
         List<AbstractRecord> results = Collections.singletonList(mock(AbstractRecord.class));

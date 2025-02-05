@@ -52,12 +52,10 @@ class AbstractRecordTest {
     }
     @Test
     void test_isValidNumber_withValidValues_returnFalse() {
-
         assertFalse(organization.isValidNumber("123456asd"));
     }
     @Test
     void test_isValidNumber_withValidValues_returnFalseByParentheses() {
-
         assertFalse(organization.isValidNumber("(123)(456)7890"));
         assertFalse(organization.isValidNumber("(123 456)7890"));
         assertFalse(organization.isValidNumber("+123 456 7890"));

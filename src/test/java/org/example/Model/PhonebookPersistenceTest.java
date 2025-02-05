@@ -45,7 +45,6 @@ class PhonebookPersistenceTest {
 
     @Test
     public void test_handles_nonexistent_directory() {
-
         List<AbstractRecord> contacts = Arrays.asList(new Person("John","cena","123456987","m",null));
         File file = new File("nonexistent/test.dat");
 
@@ -56,7 +55,6 @@ class PhonebookPersistenceTest {
 
     @Test
     public void test_load_nonexistent_file() {
-
         File nonExistentFile = new File("nonexistent.dat");
 
         List<AbstractRecord> result = persistence.load(nonExistentFile);

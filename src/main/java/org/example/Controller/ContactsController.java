@@ -104,18 +104,24 @@ public class ContactsController {
         view.showListMenu();
 
         String action = view.getUserInput();
-        if (!action.equals("back")) {
 
-            phonebook.printRecordInfo(action);
-
-            view.printRecordMenu();
-
-            String recordAction = scanner.nextLine();
+        if (action.matches("\\d+") ) {
             int index = Integer.parseInt(action) - 1;
 
-            recordsActions(recordAction, index);
-        } else {
-            return;
+            if(phonebook.containsNumber(index)){
+
+                phonebook.printRecordInfo(action);
+                view.printRecordMenu();
+
+                String recordAction = scanner.nextLine();
+                recordsActions(recordAction, index);
+            } else {
+                view.showMessage("Number not found.");
+                return;
+            }
+
+        } else if (!action.equals("back") ) {  // Si no es 'back' ni un número
+            view.showMessage("Invalid input.");
         }
     }
 
@@ -132,11 +138,10 @@ public class ContactsController {
                 return;
             }
             default -> {
-                System.out.println("Invalid Action controller");
+                System.out.println("Invalid Action ");
                 return;
             }
         }
-
         phonebook.printRecordInfo(String.valueOf(index));
     }
 
@@ -198,14 +203,12 @@ public class ContactsController {
                 default -> System.out.println("Invalid field");
             }
         }
-
         phonebook.editContact(index, field, newValue);
         view.showMessage("Contact updated.");
     }
 
     public void printContacts(List<AbstractRecord> contacts) {
         for (int i = 0; i < contacts.size(); i++) {
-
             view.showMessage((i + 1) + ". " + contacts.get(i).printName());
         }
     }
@@ -246,11 +249,10 @@ public class ContactsController {
             return;
         }
 
-        System.out.println("Found " + results.size() + " result(s): phone");
-        for (AbstractRecord resu : results) {
-
+        System.out.println("Found " + results.size() + " result(s): ");
+        /*for (AbstractRecord resu : results) {
             System.out.println(resu.printName());
-        }
+        }*/
         for (int i = 0; i < results.size(); i++) {
             System.out.println((i + 1) + ". " + results.get(i).printName());
         }

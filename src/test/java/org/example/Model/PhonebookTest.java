@@ -60,9 +60,7 @@ class PhonebookTest {
     public void test_verify_birth_date_given_valid_date_when_verified_then_return_date() {
         assertNotNull(phonebook.verifybirthDate("2000-01-01"));
     }
-    //private Phonebook phonebook;
 
-    //@BeforeEach
     void setUp2() {
         phonebook = new Phonebook("phonebook.db");
         phonebook.cleardb();
@@ -78,7 +76,6 @@ class PhonebookTest {
     }
     @Test
     public void test_constructor_handles_null_load_result() {
-        // Given
         String testPath = "null_load.db";
         PhonebookPersistence mockPersistence = mock(PhonebookPersistence.class);
         when(mockPersistence.load(any())).thenReturn(null);
@@ -87,11 +84,7 @@ class PhonebookTest {
 
         assertEquals(0, phonebook.countContacts());
         assertTrue(phonebook.getContactsList().isEmpty());
-
     }
-
-
-
 
     @Test
     void test_constructor_given_null_file_path_when_called_then_phonebook_is_empty() {
@@ -208,11 +201,9 @@ class PhonebookTest {
         assertTrue(outContent.toString().contains("Invalid field"));
         System.setOut(System.out);
     }
-    // Edit organization's address and verify last edited date is updated
+
     @Test
     public void test_edit_organization_address_updates_last_edited_date() {
-        // Given
-
         setUp2();
         Organization org = new Organization("ACME", "123 Main St", "+1234567890");
         phonebook.contacts.add(org);
@@ -224,7 +215,6 @@ class PhonebookTest {
 
     }
 
-    // Edit person's phone number with valid format
     @Test
     public void test_edit_person_valid_phone_number() {
         setUp2();
@@ -252,7 +242,6 @@ class PhonebookTest {
         assertEquals(LocalDate.of(1995, 6, 15), person.getBirthDate());
     }
 
-    // Edit multiple fields sequentially for the same contact
     @Test
     public void test_edit_multiple_fields_sequentially() {
         setUp2();
@@ -293,7 +282,6 @@ class PhonebookTest {
 
     @Test
     public void test_edit_invalid_phone_number() {
-
         setUp2();
         Person person = new Person("John", "Doe", "+1234567890", "M", LocalDate.of(1990, 1, 1));
         phonebook.contacts.add(person);
@@ -302,7 +290,6 @@ class PhonebookTest {
 
         assertEquals("[no number]", person.getPhoneNumber());
     }
-
 
     @Test
     void test_run_given_add_command_when_executed_then_triggers_handle_add_contact() {
@@ -328,19 +315,14 @@ class PhonebookTest {
         assertEquals(person, result);
     }
 
-
     @Test
     public void test_returns_person_type_for_person_record() {
-
         Phonebook phonebook = new Phonebook(null);
         Person person = new Person("John", "Doe", "1234567890", "M", LocalDate.of(1990, 1, 1));
         phonebook.addContact(person);
 
         AbstractRecord result = phonebook.getContact(0);
 
-
         assertTrue(result instanceof Person);
     }
-
-
 }

@@ -50,13 +50,11 @@ public class Person extends AbstractRecord {
     public void printInfo() {
         System.out.println("Name: " + name);
         System.out.println("Surname: " + surname);
-
         if (birthDate == null) {
             System.out.println("Birth date: [no data]");
         } else {
             System.out.println("Birth date: " + birthDate);
         }
-
         if (gender == "") {
             System.out.println("Gender: [no data]");
         } else {

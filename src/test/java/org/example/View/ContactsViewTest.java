@@ -14,10 +14,8 @@ import java.util.Scanner;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-@Disabled
-@Ignore
-public class ContactsViewTest {
 
+public class ContactsViewTest {
     @Test
     public void test_show_menu_given_menu_when_displayed_then_correct_options() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();

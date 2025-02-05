@@ -57,7 +57,9 @@ public abstract class AbstractRecord implements Serializable {
         if (phoneNumber.matches(".*\\(.*\\s.*\\).*")) {
             return false;
         }
-        return phoneNumber.matches("\\+?\\d{10}") && !phoneNumber.matches(".*[a-zA-Z].*") && !phoneNumber.contains(" ");
+        String cleanNumber = phoneNumber.replaceAll("[\\s()-]", "");
+        return cleanNumber.matches("\\+?\\d{10}");
     }
+
 
 }

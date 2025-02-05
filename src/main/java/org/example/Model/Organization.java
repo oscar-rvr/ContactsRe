@@ -8,7 +8,6 @@ public class Organization extends AbstractRecord {
 
     public Organization(String organizationName, String address, String phoneNumber) {
         super(phoneNumber);
-
         this.organizationName = organizationName;
         this.address = address;
     }
