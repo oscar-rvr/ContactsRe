@@ -36,6 +36,9 @@ public class ContactsController {
             }
         }
     }
+    public void cleardb(){
+        phonebook.cleardb();
+    }
 
     public void handleExit() {
         phonebook.exit();
@@ -148,11 +151,11 @@ public class ContactsController {
             field = view.getUserInput();
             switch (field) {
                 case "name" -> {
-                    System.out.println("Enter the name: phone");
+                    System.out.println("Enter the name: ");
                     newValue = view.getUserInput();
                 }
                 case "surname" -> {
-                    System.out.println("Enter the surname: phone");
+                    System.out.println("Enter the surname: ");
                     newValue = view.getUserInput();
                 }
                 case "birth" -> {
@@ -162,14 +165,14 @@ public class ContactsController {
                     //LocalDate birth = phonebook.verifybirthDate(newValue);
                 }
                 case "gender" -> {
-                    System.out.println("Enter the gender (M, F): phone");
+                    System.out.println("Enter the gender (M, F): ");
                     newValue = view.getUserInput();
                 }
                 case "number" -> {
-                    System.out.println("Enter the number: phone");
+                    System.out.println("Enter the number: ");
                     newValue = view.getUserInput();
                 }
-                default -> System.out.println("Invalid field phone");
+                default -> System.out.println("Invalid field ");
             }
         } else if (contact instanceof Organization) {
             view.showMessage("Select field (name, address, number):");
@@ -239,7 +242,7 @@ public class ContactsController {
 
     private void listSearchResults(List<AbstractRecord> results) {
         if (results.isEmpty()) {
-            System.out.println("No results found phone");
+            System.out.println("No results found ");
             return;
         }
 

@@ -1,6 +1,4 @@
 package org.example.Controller;
-
-import org.example.Controller.ContactsController;
 import org.example.Model.AbstractRecord;
 import org.example.Model.Organization;
 import org.example.Model.Person;
@@ -16,6 +14,8 @@ import java.util.Collections;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -28,6 +28,12 @@ public class ContactsControllerTest {
     private Phonebook phonebook;
     private ContactsView view;
 
+
+    private ContactsController createControllerWithMocks() {
+        Phonebook phonebook = mock(Phonebook.class);
+        ContactsView view = mock(ContactsView.class);
+        return new ContactsController(phonebook, view);
+    }
 
     @Test
     public void test_add_person_contact_with_valid_data() {
@@ -57,6 +63,187 @@ public class ContactsControllerTest {
         verify(phonebook).addContact(any(Person.class));
     }
 
+    @Test
+    public void test_search_with_multiple_results_and_valid_selection() {
+        ContactsView mockView = mock(ContactsView.class);
+        Phonebook mockPhonebook = mock(Phonebook.class);
+        ContactsController controller = new ContactsController(mockPhonebook,mockView);
+
+        List<AbstractRecord> mockResults = new ArrayList<>();
+        AbstractRecord record1 = mock(AbstractRecord.class);
+        AbstractRecord record2 = mock(AbstractRecord.class);
+        mockResults.add(record1);
+        mockResults.add(record2);
+
+        when(mockView.getUserInput())
+                .thenReturn("John")
+                .thenReturn("1");
+        when(mockPhonebook.searchContacts("John")).thenReturn(mockResults);
+
+        controller.handleSearchContacts();
+
+        verify(mockView).showMessage("Enter search query: ");
+        verify(mockPhonebook).searchContacts("John");
+        verify(mockView).showSearchMenu();
+        verify(record1).printInfo();
+    }
+    private ContactsController createControllerWithMocks2() {
+        Phonebook mockPhonebook = mock(Phonebook.class);
+        ContactsView mockView = mock(ContactsView.class);
+        return new ContactsController(phonebook, view);
+    }
+
+    @Test
+    public void test_edit_contact_success() {
+        // Arrange
+        Phonebook phonebookMock = mock(Phonebook.class);
+        ContactsView viewMock = mock(ContactsView.class);
+        ContactsController controller = new ContactsController(phonebookMock, viewMock);
+        Person person = new Person("John", "Doe", "+1234567890", "M", LocalDate.of(1990, 1, 1));
+
+        when(phonebookMock.getContact(0)).thenReturn(person);
+        when(viewMock.getUserInput()).thenReturn("name", "John");
+
+        controller.recordsActions("edit", 0);
+
+        verify(viewMock).selectAField();
+        verify(phonebookMock).editContact(0, "name", "John");
+        verify(viewMock).showMessage("Contact updated.");
+        verify(phonebookMock).printRecordInfo("0");
+    }
+    @Test
+    public void test_invalid_record_action() {
+        Phonebook phonebookMock = mock(Phonebook.class);
+        ContactsView viewMock = mock(ContactsView.class);
+        ContactsController controller = new ContactsController(phonebookMock, viewMock);
+
+        controller.recordsActions("invalid", 0);
+
+        verify(phonebookMock, never()).deleteContact(anyInt());
+        verify(phonebookMock, never()).editContact(anyInt(), anyString(), anyString());
+        verify(phonebookMock, never()).printRecordInfo(anyString());
+    }
+
+    @Test
+    public void test_edit_person_surname_field() {
+        Phonebook phonebook = mock(Phonebook.class);
+        ContactsView view = mock(ContactsView.class);
+        ContactsController controller = new ContactsController(phonebook, view);
+
+        Person person = new Person("John", "Doe", "1234567890", "M", LocalDate.now());
+        when(phonebook.getContact(0)).thenReturn(person);
+        when(view.getUserInput()).thenReturn("surname").thenReturn("newsur");
+
+        controller.editContact(0);
+
+        verify(phonebook).editContact(0, "surname", "newsur");
+        verify(view).showMessage("Contact updated.");
+    }
+
+    @Test
+    public void test_edit_organization_address_field() {
+        Phonebook phonebook = mock(Phonebook.class);
+        ContactsView view = mock(ContactsView.class);
+        ContactsController controller = new ContactsController(phonebook, view);
+
+        Organization organization = new Organization("Tech Corp", "123 Tech Lane", "0987654321");
+        when(phonebook.getContact(0)).thenReturn(organization);
+        when(view.getUserInput()).thenReturn("address").thenReturn("456 Innovation Drive");
+
+        controller.editContact(0);
+
+        verify(phonebook).editContact(0, "address", "456 Innovation Drive");
+        verify(view).showMessage("Contact updated.");
+    }
+
+    @Test
+    public void test_edit_phone_number_field() {
+        Phonebook phonebook = mock(Phonebook.class);
+        ContactsView view = mock(ContactsView.class);
+        ContactsController controller = new ContactsController(phonebook, view);
+
+        Person person = new Person("John", "Doe", "1234567890", "M", LocalDate.now());
+        when(phonebook.getContact(0)).thenReturn(person);
+        when(view.getUserInput()).thenReturn("number").thenReturn("0987654321");
+
+        controller.editContact(0);
+
+        verify(phonebook).editContact(0, "number", "0987654321");
+        verify(view).showMessage("Contact updated.");
+
+        Organization organization = new Organization("Tech Corp", "123 Tech Street", "1234567890");
+        when(phonebook.getContact(1)).thenReturn(organization);
+        when(view.getUserInput()).thenReturn("number").thenReturn("0987654321");
+
+        controller.editContact(1);
+
+        verify(phonebook).editContact(1, "number", "0987654321");
+        verify(view, times(2)).showMessage("Contact updated.");
+    }
+
+    @Test
+    public void test_edit_person_birth_date_field() {
+        Phonebook phonebook = mock(Phonebook.class);
+        ContactsView view = mock(ContactsView.class);
+        ContactsController controller = new ContactsController(phonebook, view);
+
+        Person person = new Person("John", "Doe", "1234567890", "M", LocalDate.of(1990, 1, 1));
+        when(phonebook.getContact(0)).thenReturn(person);
+        when(view.getUserInput()).thenReturn("birth").thenReturn("1992-02-02");
+
+        controller.editContact(0);
+
+        verify(phonebook).editContact(0, "birth", "1992-02-02");
+        verify(view).showMessage("Contact updated.");
+    }
+
+    @Test
+    public void test_empty_input_handling() {
+        ContactsView mockView = mock(ContactsView.class);
+        Phonebook mockPhonebook = mock(Phonebook.class);
+        ContactsController controller = new ContactsController(mockPhonebook, mockView);
+
+        when(mockView.getUserInput())
+                .thenReturn("")
+                .thenReturn("exit");
+
+        controller.run();
+
+        verify(mockView, times(2)).showMenu();
+        verify(mockView, times(1)).showMessage("Invalid action");
+        verify(mockPhonebook, times(1)).exit();
+    }
+
+    @Test
+    public void test_run_method_triggers_correct_handlers() {
+        ContactsView mockView = mock(ContactsView.class);
+        Phonebook mockPhonebook = mock(Phonebook.class);
+        ContactsController controller = new ContactsController(mockPhonebook, mockView);
+
+        when(mockView.getUserInput())
+                .thenReturn("add")
+                .thenReturn("list")
+                .thenReturn("search")
+                .thenReturn("count")
+                .thenReturn("exit");
+        controller.run();
+    }
+
+    @Test
+    public void test_edit_person_gender_field() {
+        Phonebook phonebook = mock(Phonebook.class);
+        ContactsView view = mock(ContactsView.class);
+        ContactsController controller = new ContactsController(phonebook, view);
+
+        Person person = new Person("John", "Doe", "1234567890", "M", LocalDate.now());
+        when(phonebook.getContact(0)).thenReturn(person);
+        when(view.getUserInput()).thenReturn("gender").thenReturn("F");
+
+        controller.editContact(0);
+
+        verify(phonebook).editContact(0, "gender", "F");
+        verify(view).showMessage("Contact updated.");
+    }
     @Test
     public void test_run_given_exit_action_calls_handleDefault() {
         ContactsController controller = createController();
